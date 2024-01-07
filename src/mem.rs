@@ -1,6 +1,7 @@
 use std::error::Error;
 use std::fmt;
 use std::io;
+use std::ops::DerefMut;
 
 use crate::ffi::{self, Backend, Deflate, DeflateBackend, ErrorMessage, Inflate, InflateBackend};
 use crate::Compression;
@@ -400,6 +401,12 @@ impl Decompress {
         Decompress {
             inner: Inflate::make(true, window_bits + 16),
         }
+    }
+
+    /// Get the raw state of the underlying decompressor.
+    #[cfg(feature = "any_zlib")]
+    pub fn get_raw(&mut self) -> &mut ffi::mz_stream {
+        self.inner.inner.stream_wrapper.inner.deref_mut() as &mut ffi::mz_stream
     }
 
     /// Returns the total number of input bytes which have been processed by

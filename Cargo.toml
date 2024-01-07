@@ -31,7 +31,7 @@ rand = "0.8"
 quickcheck = { version = "1.0", default-features = false }
 
 [features]
-default = ["rust_backend"]
+default = ["zlib"]
 any_zlib = ["any_impl"] # note: this is not a real user-facing feature
 any_impl = [] # note: this is not a real user-facing feature
 zlib = ["any_zlib", "libz-sys"]
